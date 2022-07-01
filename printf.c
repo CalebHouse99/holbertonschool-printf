@@ -11,7 +11,7 @@
 char *convert(unsigned int num, int base)
 {
 	static const char Representation[] = "0123456789ABCDEF";
-	static const char buffer[50];
+	static char buffer[50];
 	char *ptr;
 
 	ptr = &buffer[49];
@@ -26,6 +26,26 @@ char *convert(unsigned int num, int base)
 }
 
 /**
+ * int_formatter - prints and converts int to appropiate base
+ * @num: int to be printed
+ * @base: base to be converted into
+ * Return: count of ints printedt
+ */
+int int_formatter(int num, int base)
+{
+	int count = 0;
+
+	if (num < 0)
+	{
+		num = -num;
+		_putchar('-');
+		count++;
+	}
+	count += _puts(convert(num, base));
+	return (count);
+}
+
+/**
  * _printf - Our implementation of the printf function
  * @format: string to be printed, plus specifiers
  *
@@ -33,8 +53,7 @@ char *convert(unsigned int num, int base)
  */
 int _printf(const char *format, ...)
 {
-	int count = 0, i;
-	char c;
+	int count = 0;
 	const char *str;
 	va_list arg;
 
@@ -44,30 +63,25 @@ int _printf(const char *format, ...)
 		if (*str == '%')
 		{
 			str++;
-			switch (*str)
+			if (*str == 'c')
 			{
-				case 'c':
-					c = (char)va_arg(arg, int);
-					_putchar(c);
-					count++;
-					break;
-				case 's':
-					count += _puts(va_arg(arg, char*));
-					break;
-				case 'd': case 'i':
-					i = va_arg(arg, int);
-					if (i < 0)
-					{
-						i = -i;
-						_putchar('-');
-						count++;
-					}
-					count += _puts(convert(i, 10));
-					break;
-				case '%':
-					_putchar('%');
-					count++;
-					break;
+				_putchar((char)va_arg(arg, int));
+				count++;
+			}
+			else if (*str == 's')
+				count += _puts(va_arg(arg, char*));
+			else if (*str == 'd' || *str == 'i')
+				count += int_formatter(va_arg(arg, int), 10);
+			else if (*str == '%')
+			{
+				_putchar('%');
+				count++;
+			}
+			else
+			{
+				_putchar('&');
+				_putchar(*str);
+				count += 2;
 			}
 		}
 		else
