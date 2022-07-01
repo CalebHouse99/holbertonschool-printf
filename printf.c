@@ -1,38 +1,31 @@
-#include <unistd.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include "main.h"
-#include <stdio.h>
 
 /**
- * _putchar - writes the character c to stdout
- * @c: The character to print
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
+ * convert - converts int to appropiate base
+ * @num: int to be converted
+ * @base: base to be converted into
+ * Return: pointer to converted int
  */
-int _putchar(char c)
-{
-	return (write(1, &c, 1));
+
+char *convert(unsigned int num, int base) 
+{ 
+    static char Representation[]= "0123456789ABCDEF";
+    static char buffer[50]; 
+    char *ptr; 
+
+    ptr = &buffer[49]; 
+    *ptr = '\0'; 
+
+    do 
+    { 
+        *--ptr = Representation[num%base]; 
+        num /= base; 
+    }while(num != 0); 
+
+    return(ptr); 
 }
-
-/**
- * _puts - prints a string and new line to stdout
- * @str: pointer to string
- * Return: number of chars printed
- */
-int _puts(char *str)
-{
-	int i = 0, count = 0;
-
-	while (str[i] != '\0')
-	{
-		_putchar(str[i]);
-		count++;
-		i++;
-	}
-	return (count);
-}
-
 
 /**
  * _printf - Our implementation of the printf function 
@@ -42,7 +35,7 @@ int _puts(char *str)
  */
 int _printf(const char *format, ...)
 {
-	int count = 0;
+	int count = 0, i;
 	char c;
 	const char *str;
 	va_list arg;
@@ -62,13 +55,25 @@ int _printf(const char *format, ...)
 				case 's':
  					count += _puts(va_arg(arg, char*));
 					break;
-				case '%':
-					putchar('%');
+				case 'd': case 'i': i = va_arg(arg, int);
+                              		if (i < 0)
+                              		{
+                                   		i = -i;
+                                   		_putchar('-');
+                                   		count++;
+                              		}
+                              		count += _puts(convert(i,10));
+                              		break;
+				case '%': _putchar('%');
+					count++;
                               		break;
 			}
 		}
 		else
+		{
 			_putchar(*str);
+			count++;
+		}
 	}
 	va_end(arg);
 	return (count);
