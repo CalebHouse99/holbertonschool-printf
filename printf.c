@@ -1,72 +1,93 @@
-#include <unistd.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include "main.h"
 
 /**
- * _putchar - writes the character c to stdout
- * @c: The character to print
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
+ * convert - converts int to appropiate base
+ * @num: int to be converted
+ * @base: base to be converted into
+ * Return: pointer to converted int
  */
-int _putchar(char c)
+char *convert(unsigned int num, int base)
 {
-	return (write(1, &c, 1));
+	static const char Representation[] = "0123456789ABCDEF";
+	static char buffer[50];
+	char *ptr;
+
+	ptr = &buffer[49];
+	*ptr = '\0';
+
+	do {
+		*--ptr = Representation[num % base];
+		num /= base;
+	} while (num != 0);
+
+	return (ptr);
 }
 
 /**
- * _puts - prints a string and new line to stdout
- * @str: pointer to string
- * Return: number of chars printed
+ * int_formatter - prints and converts int to appropiate base
+ * @num: int to be printed
+ * @base: base to be converted into
+ * Return: count of ints printedt
  */
-int _puts(char *str)
+int int_formatter(int num, int base)
 {
-	int i = 0, count = 0;
+	int count = 0;
 
-	while (str[i] != '\0')
+	if (num < 0)
 	{
-		_putchar(str[i]);
+		num = -num;
+		_putchar('-');
 		count++;
-		i++;
 	}
-	_putchar('\n');
+	count += _puts(convert(num, base));
 	return (count);
 }
 
-
 /**
- * _printf - 
- * @format: 
+ * _printf - Our implementation of the printf function
+ * @format: string to be printed, plus specifiers
  *
- * Return: 
+ * Return: count of chars printed
  */
 int _printf(const char *format, ...)
 {
 	int count = 0;
-	int c, i = 0;
 	const char *str;
-	char *s;
 	va_list arg;
 
 	va_start(arg, format);
-	for (str = format; str[i] != '\0'; i++)
+	for (str = format; *str != '\0'; str++)
 	{
-		while (str[i] != '%')
+		if (*str == '%')
 		{
-			_putchar(str[i]);
-			count++;
-			i++;
-		}
-		i++;
-		switch (str[i])
-		{
-			case 'c': c = va_arg(arg, int);
-				_putchar(c);
+			str++;
+			if (*str == 'c')
+			{
+				_putchar((char)va_arg(arg, int));
 				count++;
-				break;
-			case 's': s = va_arg(arg, char*);
- 				count += _puts(s);
-				break;
+			}
+			else if (*str == 's')
+				count += _puts(va_arg(arg, char*));
+			else if (*str == 'd' || *str == 'i')
+				count += int_formatter(va_arg(arg, int), 10);
+			else if (*str == '%')
+			{
+				_putchar('%');
+				count++;
+			}
+			else
+			{
+				_putchar('&');
+				_putchar(*str);
+				count += 2;
+			}
+		}
+		else
+		{
+			_putchar(*str);
+			count++;
 		}
 	}
 	va_end(arg);
