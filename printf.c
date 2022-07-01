@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include "main.h"
+#include <stdio.h>
 
 /**
  * _putchar - writes the character c to stdout
@@ -29,7 +30,6 @@ int _puts(char *str)
 		count++;
 		i++;
 	}
-	_putchar('\n');
 	return (count);
 }
 
@@ -43,31 +43,29 @@ int _puts(char *str)
 int _printf(const char *format, ...)
 {
 	int count = 0;
-	int c, i = 0;
+	char c;
 	const char *str;
-	char *s;
 	va_list arg;
 
 	va_start(arg, format);
-	for (str = format; str[i] != '\0'; i++)
+	for (str = format; *str != '\0'; str++)
 	{
-		while (str[i] != '%')
+		if (*str == '%')
 		{
-			_putchar(str[i]);
-			count++;
-			i++;
+			str++;
+			switch (*str)
+			{
+				case 'c': c = (char)va_arg(arg, int);
+					_putchar(c);
+					count++;
+					break;
+				case 's':
+ 					count += _puts(va_arg(arg, char*));
+					break;
+			}
 		}
-		i++;
-		switch (str[i])
-		{
-			case 'c': c = va_arg(arg, int);
-				_putchar(c);
-				count++;
-				break;
-			case 's': s = va_arg(arg, char*);
- 				count += _puts(s);
-				break;
-		}
+		else
+			_putchar(*str);
 	}
 	va_end(arg);
 	return (count);
