@@ -35,10 +35,10 @@ int _puts(char *str)
 
 
 /**
- * _printf - 
- * @format: 
+ * _printf - Our implementation of the printf function 
+ * @format: string to be printed, plus specifiers
  *
- * Return: 
+ * Return: count of chars printed
  */
 int _printf(const char *format, ...)
 {
@@ -62,6 +62,9 @@ int _printf(const char *format, ...)
 				case 's':
  					count += _puts(va_arg(arg, char*));
 					break;
+				case '%':
+					putchar('%');
+                              		break;
 			}
 		}
 		else
