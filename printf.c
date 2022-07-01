@@ -8,27 +8,25 @@
  * @base: base to be converted into
  * Return: pointer to converted int
  */
+char *convert(unsigned int num, int base)
+{
+	static const char Representation[] = "0123456789ABCDEF";
+	static const char buffer[50];
+	char *ptr;
 
-char *convert(unsigned int num, int base) 
-{ 
-    static char Representation[]= "0123456789ABCDEF";
-    static char buffer[50]; 
-    char *ptr; 
+	ptr = &buffer[49];
+	*ptr = '\0';
 
-    ptr = &buffer[49]; 
-    *ptr = '\0'; 
+	do {
+		*--ptr = Representation[num % base];
+		num /= base;
+	} while (num != 0);
 
-    do 
-    { 
-        *--ptr = Representation[num%base]; 
-        num /= base; 
-    }while(num != 0); 
-
-    return(ptr); 
+	return (ptr);
 }
 
 /**
- * _printf - Our implementation of the printf function 
+ * _printf - Our implementation of the printf function
  * @format: string to be printed, plus specifiers
  *
  * Return: count of chars printed
@@ -48,25 +46,28 @@ int _printf(const char *format, ...)
 			str++;
 			switch (*str)
 			{
-				case 'c': c = (char)va_arg(arg, int);
+				case 'c':
+					c = (char)va_arg(arg, int);
 					_putchar(c);
 					count++;
 					break;
 				case 's':
- 					count += _puts(va_arg(arg, char*));
+					count += _puts(va_arg(arg, char*));
 					break;
-				case 'd': case 'i': i = va_arg(arg, int);
-                              		if (i < 0)
-                              		{
-                                   		i = -i;
-                                   		_putchar('-');
-                                   		count++;
-                              		}
-                              		count += _puts(convert(i,10));
-                              		break;
-				case '%': _putchar('%');
+				case 'd': case 'i':
+					i = va_arg(arg, int);
+					if (i < 0)
+					{
+						i = -i;
+						_putchar('-');
+						count++;
+					}
+					count += _puts(convert(i, 10));
+					break;
+				case '%':
+					_putchar('%');
 					count++;
-                              		break;
+					break;
 			}
 		}
 		else
