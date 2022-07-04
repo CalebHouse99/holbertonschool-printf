@@ -79,7 +79,7 @@ int _printf(const char *format, ...)
 			}
 			else
 			{
-				_putchar('&');
+				_putchar('%');
 				_putchar(*str);
 				count += 2;
 			}
