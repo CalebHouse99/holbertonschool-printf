@@ -1,19 +1,31 @@
-.TH PRINTF(3) Programmer's Manual PRINTF(3)
+.TH _PRINTF 3 2022-07-04 GNU
 
 .SH NAME
-printf - formatted output conversion
+_printf \- formatted output conversion
 
 .SH SYNOPSIS
-.B printf
+.B int B_printf(const char *format, ...);
 
 .SH DESCRIPTION
-.B printf
+This is the \fB\_printf\fR function. It prints an output to the standard output, according to a specific format.
+.SS \fBFormat\fR
+The format string is composed of: Normal characters (besides %), which are copied to the output. Another component is the conversion specifications. The conversion specifier can be identified by the % character.
 
-.SH OPTIONS
+.SS \fBConversion Specifiers\fR
+This is the character which goes after the '%' character to indicate the type of conversion to be applied.
+.RS
+.nf
+\fBc \- a single character\fR
+\fBs \- a string\fR
+\fBd \- a decimal integer (assumes base 10)\fR
+\fBi \- a decimal integer (detects base automatically)\fR
+.RE
 
 .SH FILES
+_putchar, _puts
 
 .SH AUTHOR
 PStewart1, CalebHouse99
 
 .SH SEE ALSO
+printf(3)
