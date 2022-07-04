@@ -1,0 +1,19 @@
+.TH PRINTF(3) Programmer's Manual PRINTF(3)
+
+.SH NAME
+printf - formatted output conversion
+
+.SH SYNOPSIS
+.B printf
+
+.SH DESCRIPTION
+.B printf
+
+.SH OPTIONS
+
+.SH FILES
+
+.SH AUTHOR
+PStewart1, CalebHouse99
+
+.SH SEE ALSO
