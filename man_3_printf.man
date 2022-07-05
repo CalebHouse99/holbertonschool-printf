@@ -24,6 +24,9 @@ This is the character which goes after the '%' character to indicate the type of
 .SH FILES
 _putchar.c, _puts.c
 
+.SH RETURN VALUE
+On success, \fB_printf()\fR will return the number of characters printed. Otherwise, a negative value is returned.
+
 .SH AUTHOR
 PStewart1, CalebHouse99
 
