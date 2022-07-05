@@ -7,13 +7,13 @@
  */
 int _puts(char *str)
 {
-         int i = 0, count = 0;
+int i = 0, count = 0;
 
-         while (str[i])
-         {
-                 _putchar(str[i]);
-                 count++;
-                 i++;
-         }
-         return (count);
+while (str[i])
+{
+_putchar(str[i]);
+count++;
+i++;
+}
+return (count);
 }
