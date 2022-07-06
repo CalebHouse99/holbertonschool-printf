@@ -1,5 +1,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
+#include <stddef.h>
+#include <string.h>
 #include "main.h"
 
 /**
@@ -57,6 +59,10 @@ int _printf(const char *format, ...)
 	const char *str;
 	va_list arg;
 
+	if (format == NULL)
+		return (-1);
+	if (*format == '%' && strlen(format) == 1)
+		return (-1);
 	va_start(arg, format);
 	for (str = format; *str != '\0'; str++)
 	{
@@ -64,19 +70,13 @@ int _printf(const char *format, ...)
 		{
 			str++;
 			if (*str == 'c')
-			{
-				_putchar((char)va_arg(arg, int));
-				count++;
-			}
+				count += _putchar((char)va_arg(arg, int));
 			else if (*str == 's')
 				count += _puts(va_arg(arg, char*));
 			else if (*str == 'd' || *str == 'i')
 				count += int_formatter(va_arg(arg, int), 10);
 			else if (*str == '%')
-			{
-				_putchar('%');
-				count++;
-			}
+				count += _putchar('%');
 			else
 			{
 				_putchar('%');
@@ -85,10 +85,7 @@ int _printf(const char *format, ...)
 			}
 		}
 		else
-		{
-			_putchar(*str);
-			count++;
-		}
+			count += _putchar(*str);
 	}
 	va_end(arg);
 	return (count);
