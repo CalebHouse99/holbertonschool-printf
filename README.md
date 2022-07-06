@@ -10,8 +10,8 @@ We implement our own versions of putchar and puts to recreate the printf command
 ## Examples
 With _printf, we're able to print characters, strings, and integers to the standard output. Here are some examples:
 
-`int num = 1;`
-`_printf("Hello, World!\n");` - Outputs "Hello, World!" and a new line.
-`_printf("%c\n", 'H');` - Outputs "H" and a new line.
-`_printf("%d\n", num);` - Outputs 1 and a new line.
+`int num = 1;`\
+`_printf("Hello, World!\n");` - Outputs "Hello, World!" and a new line.\
+`_printf("%c\n", 'H');` - Outputs "H" and a new line.\
+`_printf("%d\n", num);` - Outputs 1 and a new line.\
 `_printf("%i\n", num);` - Outputs 1 and a new line.
